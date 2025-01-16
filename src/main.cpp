@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
     window.show();
     term.calculateTerminalDimentions();
 
+
     JupThrUtils::log(std::to_string(term.getTerminalWidth()));
 
     term.write(JupThrGraphics::Colors::renderToHtml(JupThrGraphics::Colors::Bold("This is a red test")));

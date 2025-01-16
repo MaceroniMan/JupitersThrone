@@ -21,6 +21,8 @@ public:
     void setCommandText(QString text);
     void setOutputText(QString text);
 
+    void showAlert(QString text);
+
     QFont getFont();
 
     QSize getCommandLabelSize();
@@ -41,6 +43,9 @@ signals:
 private:
     Ui::ConsoleWindow *ui;
 
-    int scale_factor;
+    double scale_factor;
+    QTimer *alertTimeout;
+
+    void resizeScreen();
 };
 #endif // CONSOLEWINDOW_H

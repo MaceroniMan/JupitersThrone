@@ -1,9 +1,7 @@
 # Add the UI file using qt_add_ui() to ensure the header is generated
 qt_add_library(JupitersThroneEngine STATIC
-    consolewindow.cpp
-    terminalmanager.cpp
-    consolewindow.h
-    terminalmanager.h
+    consolewindow.h consolewindow.cpp
+    terminalmanager.h terminalmanager.cpp
 )
 
 # Automatically handle the .ui file with qt_add_ui() (this should generate the ui_consolewindow.h file)

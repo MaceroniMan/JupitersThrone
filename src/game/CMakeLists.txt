@@ -8,6 +8,7 @@ qt_add_library(JupitersThroneGame STATIC
     core/dialougeengine.h core/dialougeengine.cpp
     core/combatengine.h core/combatengine.cpp
     core/gameloop.h core/gameloop.cpp
+    core/commandparser.h core/commandparser.cpp
 )
 
 # Include directories (include the current source directory for header files)

@@ -103,6 +103,21 @@ void TerminalManager::anyKeyPressed(QKeyEvent* event) {
 
     default:
         if(event->text().toStdString() != "") {
+            if (event->modifiers() == Qt::ControlModifier) {
+                QChar chr = event->text().at(0);
+                if (chr == '=') { // scale window up
+                    double newScale = this->window->getScale()+0.2;
+                    this->window->setScale(newScale);
+                    this->window->scaleApplication();
+                } else if (chr == '-') { // scale window down
+                    double newScale = this->window->getScale()-0.2;
+                    if (newScale > .5) {
+                        this->window->setScale(newScale);
+                    }
+                    this->window->scaleApplication();
+                }
+            }
+
             if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier) {
                 QChar chr = event->text().at(0);
                 this->user_input.insert(offset, chr);
