@@ -36,7 +36,3 @@ qt_add_library(LuaCpp STATIC ${SOURCE_FILES})
 target_link_libraries(LuaCpp
   LuaLang
 )
-#target_link_libraries(luacpp_static ${LUA_LIBRARIES})
-target_include_directories(LuaCpp INTERFACE
-    ${CMAKE_CURRENT_SOURCE_DIR}
-)

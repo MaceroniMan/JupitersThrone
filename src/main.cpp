@@ -1,19 +1,22 @@
-#include "consolewindow.h"
-#include "terminalmanager.h"
-#include "debug.h"
-#include "colors.h"
+#include "src/engine/consolewindow.h"
+#include "src/engine/terminalmanager.h"
+#include "src/game/utils/debug.h"
+#include "src/game/utils/colors.h"
+#include "src/game/core/game.h"
+
+#include <lib/luacpp/LuaCpp.hpp>
 
 #include <QApplication>
+#include <QTimer>
 
-#include <LuaCpp.hpp>
 #include <iostream>
 
 using namespace LuaCpp;
-using namespace LuaCpp::Registry;
-using namespace LuaCpp::Engine;
 
 int main(int argc, char *argv[])
 {
+    std::cout << "foobar \n";
+
     LuaContext ctx;
 
     std::shared_ptr<Engine::LuaTString> str = std::make_shared<Engine::LuaTString>("world from C++!");
@@ -37,13 +40,19 @@ int main(int argc, char *argv[])
 
     JupThrUtils::log("startup", "starting windows");
     ConsoleWindow window;
-    TerminalManager term(&window);
+    TerminalManager term(window);
 
     window.show();
     term.calculateTerminalDimentions();
 
 
-    JupThrUtils::log(std::to_string(term.getTerminalWidth()));
+    JupThrUtils::log("startup", "starting game loop");
+
+    JupThrCore::Game game(term);
+
+    QTimer *timer = new QTimer();
+    QObject::connect(timer, &QTimer::timeout, [&game](){game.doStateCalc();});
+    timer->start(22);
 
     term.write(JupThrGraphics::Colors::renderToHtml(JupThrGraphics::Colors::Bold("This is a red test")));
 

@@ -11,7 +11,7 @@ class TerminalManager : public QObject {
     Q_OBJECT
 
 public:
-    TerminalManager(ConsoleWindow *window);
+    TerminalManager(ConsoleWindow &window);
 
     /* Overwrite the content on the screen
      *
@@ -44,7 +44,7 @@ private:
     // Will turn special shortcuts to their HTML equivilant
     QString prettyPrint(QString text);
 
-    ConsoleWindow *window;
+    ConsoleWindow &window;
 
     std::vector<QChar> user_input;
     int user_input_pos = 0;

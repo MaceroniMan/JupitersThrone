@@ -3,13 +3,12 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 
-TerminalManager::TerminalManager(ConsoleWindow *window) {
-    this->window = window;
+TerminalManager::TerminalManager(ConsoleWindow &window): window(window) {
 
     // connect keyboard and link events through
-    QObject::connect(window, &ConsoleWindow::screenKeyPressed, this, &TerminalManager::anyKeyPressed);
-    QObject::connect(window, &ConsoleWindow::screenLinkClicked, this, &TerminalManager::linkClicked);
-    QObject::connect(window, &ConsoleWindow::screenResized, this, &TerminalManager::calculateTerminalDimentions);
+    QObject::connect(&window, &ConsoleWindow::screenKeyPressed, this, &TerminalManager::anyKeyPressed);
+    QObject::connect(&window, &ConsoleWindow::screenLinkClicked, this, &TerminalManager::linkClicked);
+    QObject::connect(&window, &ConsoleWindow::screenResized, this, &TerminalManager::calculateTerminalDimentions);
 }
 
 // PROPERTIES
@@ -27,7 +26,7 @@ void TerminalManager::linkClicked(QString content) {
 }
 
 void TerminalManager::calculateTerminalDimentions() {
-    QFont font = this->window->getFont();
+    QFont font = this->window.getFont();
     // a simple one character string
     QString str = QString::fromStdString(" ");
 
@@ -39,7 +38,7 @@ void TerminalManager::calculateTerminalDimentions() {
     int line_height = fm.height();
     int char_width = fm.horizontalAdvance(str);
 
-    QSize output_label_size = this->window->getOutputLabelSize();
+    QSize output_label_size = this->window.getOutputLabelSize();
 
     int output_label_width = output_label_size.width();
     int output_label_height = output_label_size.height();
@@ -106,15 +105,15 @@ void TerminalManager::anyKeyPressed(QKeyEvent* event) {
             if (event->modifiers() == Qt::ControlModifier) {
                 QChar chr = event->text().at(0);
                 if (chr == '=') { // scale window up
-                    double newScale = this->window->getScale()+0.2;
-                    this->window->setScale(newScale);
-                    this->window->scaleApplication();
+                    double newScale = this->window.getScale()+0.2;
+                    this->window.setScale(newScale);
+                    this->window.scaleApplication();
                 } else if (chr == '-') { // scale window down
-                    double newScale = this->window->getScale()-0.2;
+                    double newScale = this->window.getScale()-0.2;
                     if (newScale > .5) {
-                        this->window->setScale(newScale);
+                        this->window.setScale(newScale);
                     }
-                    this->window->scaleApplication();
+                    this->window.scaleApplication();
                 }
             }
 
@@ -153,7 +152,7 @@ void TerminalManager::anyKeyPressed(QKeyEvent* event) {
     mid_char = mid_char.toHtmlEscaped().replace(" ", "&nbsp;");
     end = end.toHtmlEscaped().replace(" ", "&nbsp;");
 
-    this->window->setCommandText(start + "<span style=\"background-color:darkgrey;\">" + mid_char + "</span>" + end);
+    this->window.setCommandText(start + "<span style=\"background-color:darkgrey;\">" + mid_char + "</span>" + end);
 }
 
 // FUNCTIONS
@@ -161,7 +160,7 @@ void TerminalManager::write(std::string text) {
     QString screen_text = QString::fromStdString(text);
 
     // add the <html> to force qt to render as html text
-    this->window->setOutputText("<html>" + screen_text + "</html>");
+    this->window.setOutputText("<html>" + screen_text + "</html>");
 }
 
 void TerminalManager::setCommand(std::string command) {
