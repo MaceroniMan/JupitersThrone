@@ -2,6 +2,8 @@
 #define GAME_H
 
 #include "src/engine/terminalmanager.h"
+#include "src/game/io/player.h"
+#include "src/game/constants.h"
 
 namespace JupThrCore {
 class Game;
@@ -10,14 +12,18 @@ class Game;
 class JupThrCore::Game
 {
 public:
-    Game(TerminalManager&);
+    Game(TerminalManager&, JupThrData::Player&);
 
     void doStateCalc();
 
 private:
-    TerminalManager &term;
+    void updateScreen();
 
-    int counter;
+
+    TerminalManager &term;
+    JupThrData::Player &player;
+
+    int subTimeCounter;
 };
 
 #endif // GAME_H

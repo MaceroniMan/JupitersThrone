@@ -3,6 +3,8 @@
 #include "src/game/utils/debug.h"
 #include "src/game/utils/colors.h"
 #include "src/game/core/game.h"
+#include "src/game/io/player.h"
+#include "src/game/constants.h"
 
 #include <lib/luacpp/LuaCpp.hpp>
 
@@ -45,14 +47,16 @@ int main(int argc, char *argv[])
     window.show();
     term.calculateTerminalDimentions();
 
-
     JupThrUtils::log("startup", "starting game loop");
 
-    JupThrCore::Game game(term);
+    JupThrData::Player save;
+    JupThrCore::Game game(term, save);
 
     QTimer *timer = new QTimer();
-    QObject::connect(timer, &QTimer::timeout, [&game](){game.doStateCalc();});
-    timer->start(22);
+    QObject::connect(timer, &QTimer::timeout, [&game](){
+        game.doStateCalc();
+    });
+    timer->start(JupThrGlobal::LOOP_TIME_MS);
 
     term.write(JupThrGraphics::Colors::renderToHtml(JupThrGraphics::Colors::Bold("This is a red test")));
 

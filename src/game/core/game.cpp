@@ -1,12 +1,15 @@
 #include "game.h"
 
-#include <iostream>
-#include <string>
+#include <lib/luacpp/LuaCpp.hpp>
 
-JupThrCore::Game::Game(TerminalManager& term): term(term), counter(1) {}
+JupThrCore::Game::Game(TerminalManager& term, JupThrData::Player& playerData): term(term), player(playerData) {
+    this->subTimeCounter = 0;
+}
 
 void JupThrCore::Game::doStateCalc() {
-    this->counter++;
-
-    this->term.write("Yippie: " + std::to_string(counter));
+    this->subTimeCounter++;
+    if (this->subTimeCounter == (1000/JupThrGlobal::LOOP_TIME_MS)) {
+        this->subTimeCounter = 0;
+        this->player.secondsSinceStart++;
+    }
 }

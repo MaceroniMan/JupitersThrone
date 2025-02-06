@@ -40,6 +40,9 @@ qt_add_executable(JupitersThrone
     src/game/core/combatengine.h      src/game/core/combatengine.cpp
     src/game/core/game.h              src/game/core/game.cpp
     src/game/core/commandparser.h     src/game/core/commandparser.cpp
+    src/game/io/player.h              src/game/io/player.cpp
+    src/game/scripting/dice.h src/game/scripting/dice.cpp
+    src/game/io/world.h src/game/io/world.cpp
 )
 
 message("-- Creating UI header")

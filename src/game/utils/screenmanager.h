@@ -7,7 +7,7 @@
 #include <functional>
 #include <map>
 
-#include "general.h"
+#include "src/game/structures.h"
 
 namespace JupThrGraphics {
 class ScreenManager;
@@ -19,7 +19,7 @@ public:
     ScreenManager();
 
     void updateLines(std::vector<std::string> lines);
-    void print(std::string content, JupThrUtils::Pos position);
+    void print(std::string content, JupThrGlobal::Pos position);
 
     void alert(std::string message);
     bool confirm(std::string message);
